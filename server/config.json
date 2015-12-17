@@ -23,5 +23,37 @@
       "disableStackTrace": false
     }
   },
-  "legacyExplorer": false
+  "legacyExplorer": false,
+  "logHost": "192.168.99.100",
+  "amqpHost": "192.168.99.100",
+  "amqpPort": 5672,
+  "btv3": {
+    "queueName": "btv3",
+    "syncStoresJob": "sync-stores",
+    "syncEANJob": "sync-ean",
+    "pullInterval": 60000,
+    "stores": [
+      {
+        "name": "Unites States",
+        "countryCode": "US"
+      },
+      {
+        "name": "United Kingdom",
+        "countryCode": "UK"
+      },
+      {
+        "name": "Germany",
+        "countryCode": "DE"
+      },
+      {
+        "name": "Australia",
+        "countryCode": "AU"
+      },
+      {
+        "name": "Canada",
+        "countryCode": "CA"
+      }
+    ],
+    "gcmServerApiKey": "AIzaSyCkIUiSZs1lMlb0si8eCxIn0uKGsh_8aQ4"
+  }
 }

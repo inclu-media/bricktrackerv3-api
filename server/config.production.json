@@ -1,0 +1,4 @@
+{
+  "logHost": "log",
+  "amqpHost": "mq"
+}

@@ -1,0 +1,9 @@
+{
+  "btv3mongo": {
+    "host": "db",
+    "port": 27017,
+    "database": "btv3",
+    "name": "btv3mongo",
+    "connector": "mongodb"
+  }
+}

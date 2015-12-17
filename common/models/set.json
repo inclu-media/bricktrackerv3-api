@@ -1,0 +1,79 @@
+{
+  "name": "Set",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "code": {
+      "type": "string",
+      "required": true
+    },
+    "countryCode": {
+      "type": "string",
+      "required": true
+    },
+    "storeUrl": {
+      "type": "string",
+      "required": false
+    },
+    "thumbUrl": {
+      "type": "string",
+      "required": false
+    },
+    "avNow": {
+      "type": "string",
+      "required": false
+    },
+    "avFuture": {
+      "type": "string",
+      "required": false
+    },
+    "avQuestionable": {
+      "type": "string",
+      "required": false
+    },
+    "rating": {
+      "type": "string",
+      "required": false
+    },
+    "price": {
+      "type": "string",
+      "required": false
+    },
+    "priceWas": {
+      "type": "string",
+      "required": false
+    },
+    "priceNow": {
+      "type": "string",
+      "required": false
+    },
+    "badges": {
+      "type": "string",
+      "required": false
+    },
+    "ean": {
+      "type": "string",
+      "required": false
+    },
+    "created": {
+      "type": "string",
+      "required": false
+    },
+    "updated": {
+      "type": "string",
+      "required": false
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}
+

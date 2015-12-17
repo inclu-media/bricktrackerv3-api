@@ -31,5 +31,25 @@
   "Role": {
     "dataSource": "db",
     "public": false
+  },
+  "Set": {
+    "dataSource": "btv3mongo",
+    "public": true
+  },
+  "application": {
+    "public": true,
+    "dataSource": "btv3mongo"
+  },
+  "installation": {
+    "public": true,
+    "dataSource": "btv3mongo"
+  },
+  "notification": {
+    "public": false,
+    "dataSource": "btv3mongo"
+  },
+  "push": {
+    "public": false,
+    "dataSource": "push"
   }
 }
