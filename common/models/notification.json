@@ -1,4 +1,16 @@
 {
   "name": "notification",
-  "base": "Notification"
+  "base": "Notification",
+  "properties": {},
+  "validations": [],
+  "relations": {},
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY"
+    }
+  ],
+  "methods": {}
 }

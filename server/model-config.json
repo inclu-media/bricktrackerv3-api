@@ -13,43 +13,44 @@
       "./mixins"
     ]
   },
-  "User": {
-    "dataSource": "db"
+  "user": {
+    "dataSource": "btv3mongo",
+    "public": true
   },
   "AccessToken": {
-    "dataSource": "db",
+    "dataSource": "btv3mongo",
     "public": false
   },
   "ACL": {
-    "dataSource": "db",
+    "dataSource": "btv3mongo",
     "public": false
   },
   "RoleMapping": {
-    "dataSource": "db",
+    "dataSource": "btv3mongo",
     "public": false
   },
   "Role": {
-    "dataSource": "db",
+    "dataSource": "btv3mongo",
     "public": false
   },
-  "Set": {
+  "set": {
     "dataSource": "btv3mongo",
     "public": true
   },
   "application": {
-    "public": true,
-    "dataSource": "btv3mongo"
+    "dataSource": "btv3mongo",
+    "public": false
   },
   "installation": {
-    "public": true,
-    "dataSource": "btv3mongo"
+    "dataSource": "btv3mongo",
+    "public": true
   },
   "notification": {
-    "public": false,
-    "dataSource": "btv3mongo"
+    "dataSource": "btv3mongo",
+    "public": false
   },
   "push": {
-    "public": false,
-    "dataSource": "push"
+    "dataSource": "push",
+    "public": false
   }
 }

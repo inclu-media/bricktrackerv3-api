@@ -2,6 +2,7 @@ module.exports = function(app) {
 
   var btv3config = app.get('btv3');
   var Scraper = require('../btv3/scraper.js');
+  var AWS = require('../btv3/aws.js');
   var winston = require('winston');
   var mq = require('strong-mq');
   var splunk = require('winston-splunk').splunk;
@@ -18,9 +19,9 @@ module.exports = function(app) {
     host: app.get('amqpHost'),
     port: app.get('amqpPort')
   });
-  connection.open().on('error', function() {
-    app.winston.log('error', 'Message Queue', {"msg": "Error connecting to messaging server. Synchronisation disabled."});
-
+  connection.open().on('error', function(err) {
+    app.winston.log('error', 'Error connectiong to messaging server', {"msg": err.message, "stack": err.stack});
+    throw err;
   });
   var pull = connection.createPullQueue(btv3config.queueName);
 
@@ -31,7 +32,7 @@ module.exports = function(app) {
     }
     else if (msg.job.localeCompare(btv3config.syncEANJob) == 0) {
       app.winston.log('info', 'Job pulled', {"msg": "EAN Sync", "pid": process.pid});
-      // TODO: ean sync
+      AWS.sync(app);
     }
   });
 };

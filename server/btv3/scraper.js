@@ -31,7 +31,7 @@ scraper.sync = function(app) {
   var PushModel    = app.models.push;
   var Notification = app.models.notification;
   var db           = app.dataSources.btv3mongo;
-  var Set          = db.createModel('Set');
+  var Set          = app.models.set;
 
   btv3Config.stores.forEach(function(store){
     xStore('http://search-en.lego.com/?cc=' + store.countryCode + '&count=9999', '.product-thumbnail',[{
@@ -52,7 +52,7 @@ scraper.sync = function(app) {
         processSets(sets, store.countryCode);
       }
       else {
-        app.winston.log('error','Scraping', {"msg": err});
+        app.winston.log('warning', 'Problems parsing store scrapes', {"msg": err.message, "stack": err.stack});
       }
     });
   });
@@ -116,7 +116,8 @@ scraper.sync = function(app) {
             (function(oldSet) {
               Set.create(aSet, function (err, theSet) {
                 if (err != null) {
-                  app.winston.log('error', 'Database', {"msg": err});
+                  app.winston.log('warning', "Error creating update set in database",
+                    {"msg": err.message, "stack": err.stack});
                 }
                 else {
                   app.winston.log('info', 'Database', {
@@ -125,8 +126,17 @@ scraper.sync = function(app) {
                     "name": theSet.name,
                     "countryCode": theSet.countryCode
                   });
-                  Set.destroyById(oldSet.id, null);
-                  // TODO: sendPush(oldSet, theSet);
+                  var tmpOldSet = oldSet;
+                  Set.destroyById(oldSet.id, function(err) {
+                    if (err) {
+                      app.winston.log('warning', "Error deleting set from database after update",
+                        {"msg": err.message, "status": err.status});
+                    }
+                    else {
+                      sendPush(tmpOldSet, theSet);
+                    }
+                  });
+
                 }
               });
             })(oldSet);
@@ -138,7 +148,8 @@ scraper.sync = function(app) {
           aSet.created = new Date();
           Set.create(aSet, function(err, theSet){
             if (err != null) {
-              app.winston.log('error', 'Database', {"msg": err});
+              app.winston.log('error', "Problems creating a new set in the database",
+                {"msg": err.message, "stack": err.stack});
             }
             else {
               app.winston.log('info', 'Database', {
@@ -153,7 +164,7 @@ scraper.sync = function(app) {
 
       }
       else {
-        app.winston.log('error', 'Database', {"msg": err});
+        app.winston.log('warning', "Problems connecting to database", {"msg": err.message, "status": err.status});
       }
     });
   }
@@ -165,13 +176,21 @@ scraper.sync = function(app) {
     var setQuery = {
       subscriptions: {inq: [setString]}
     };
-    app.winston.log('info', 'Push Notification', {
-      "msg": "Push notification attempt",
-      "payload": setString
-    });
 
     PushModel.notifyByQuery(setQuery, setNotification, function(err){
-      app.winston.log('error', 'Push Notification', {"msg": err});
+      if (err) {
+        app.winston.log('warning', "Sending push notifications failed", {"msg": err.message, "status": err.status});
+      }
+      else {
+        app.winston.log('info', 'Push Notification', {
+          "msg": "Push notification send",
+          "payload": setString
+        });
+      }
+    });
+
+    PushModel.on('error', function(err) {
+      app.winston.log('warning', "Sending push notifications failed", {"msg": err.message, "stack": err.stack});
     });
   }
 

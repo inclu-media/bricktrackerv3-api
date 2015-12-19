@@ -1,3 +1,7 @@
+/**
+ * Registeres the api at Google Cloud Messaging.
+ * @param app
+ */
 module.exports = function (app) {
 
   var Application  = app.models.application;
@@ -20,6 +24,7 @@ module.exports = function (app) {
 
     updateOrCreateApp(function (err, appModel) {
       if (err) {
+        app.winston.log('error', 'Error registering at GCM', {msg: err.message, stack: err.stack});
         throw err;
       }
     });

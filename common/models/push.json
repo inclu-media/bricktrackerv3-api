@@ -1,10 +1,17 @@
 {
   "name": "push",
-  "base": "Model",
   "plural": "Push",
+  "base": "Model",
   "properties": {},
   "validations": [],
   "relations": {},
-  "acls": [],
-  "methods": []
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY"
+    }
+  ],
+  "methods": {}
 }

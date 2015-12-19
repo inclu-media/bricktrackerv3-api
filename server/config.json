@@ -31,19 +31,21 @@
     "queueName": "btv3",
     "syncStoresJob": "sync-stores",
     "syncEANJob": "sync-ean",
-    "pullInterval": 60000,
     "stores": [
       {
         "name": "Unites States",
-        "countryCode": "US"
+        "countryCode": "US",
+        "awsHost": "webservices.amazon.com"
       },
       {
         "name": "United Kingdom",
-        "countryCode": "UK"
+        "countryCode": "UK",
+        "awsHost": "webservices.amazon.co.uk"
       },
       {
         "name": "Germany",
-        "countryCode": "DE"
+        "countryCode": "DE",
+        "awsHost": "webservices.amazon.de"
       },
       {
         "name": "Australia",
@@ -51,9 +53,11 @@
       },
       {
         "name": "Canada",
-        "countryCode": "CA"
+        "countryCode": "CA",
+        "awsHost": "webservices.amazon.ca"
       }
     ],
-    "gcmServerApiKey": "AIzaSyCkIUiSZs1lMlb0si8eCxIn0uKGsh_8aQ4"
+    "appUserName": "btv3app",
+    "appUserEmail": "btv3app@bricktracker.net"
   }
 }

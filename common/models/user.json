@@ -1,6 +1,7 @@
 {
-  "name": "application",
-  "base": "Application",
+  "name": "user",
+  "base": "User",
+  "idInjection": true,
   "properties": {},
   "validations": [],
   "relations": {},
@@ -9,7 +10,7 @@
       "accessType": "*",
       "principalType": "ROLE",
       "principalId": "$everyone",
-      "permission": "DENY"
+      "permission": "ALLOW"
     }
   ],
   "methods": {}
