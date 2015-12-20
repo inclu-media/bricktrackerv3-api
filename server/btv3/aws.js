@@ -23,7 +23,7 @@ aws.sync = function(app) {
 
   var btv3Config   = app.get('btv3');
   var db           = app.dataSources.btv3mongo;
-  var Set          = db.createModel('Set');
+  var Set          = app.models.set;
 
   btv3Config.stores.forEach(function(store){
     if (store.hasOwnProperty('awsHost')) {  // not all regions have an Amazon Marketplace

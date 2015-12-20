@@ -62,7 +62,7 @@ scraper.sync = function(app) {
     sets.forEach(function(aSet) {
 
       // skip 'empty' sets (e.g. Pick a Brick)
-      if (!aSet.hasOwnProperty('name') && !aSet.hasOwnProperty('code')) {
+      if (!aSet.hasOwnProperty('name') || !aSet.hasOwnProperty('code')) {
         return;
       }
 

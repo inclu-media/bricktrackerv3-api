@@ -49,3 +49,8 @@ Stopping the service
 ```
 $ slc ctl -C http://192.168.99.100 remove api
 ```
+
+PROD Environment
+----------------
+
+IP: 52.21.77.232
