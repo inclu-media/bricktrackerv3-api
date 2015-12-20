@@ -30,7 +30,6 @@ scraper.sync = function(app) {
   var xStore       = Xray();
   var PushModel    = app.models.push;
   var Notification = app.models.notification;
-  var db           = app.dataSources.btv3mongo;
   var Set          = app.models.set;
 
   btv3Config.stores.forEach(function(store){
@@ -116,7 +115,7 @@ scraper.sync = function(app) {
             (function(oldSet) {
               Set.create(aSet, function (err, theSet) {
                 if (err != null) {
-                  app.winston.log('warning', "Error creating update set in database",
+                  app.winston.log('warning', "Error creating updated set in database",
                     {"msg": err.message, "stack": err.stack});
                 }
                 else {
@@ -148,7 +147,7 @@ scraper.sync = function(app) {
           aSet.created = new Date();
           Set.create(aSet, function(err, theSet){
             if (err != null) {
-              app.winston.log('error', "Problems creating a new set in the database",
+              app.winston.log('warning', "Problems creating a new set in the database",
                 {"msg": err.message, "stack": err.stack});
             }
             else {

@@ -3,15 +3,8 @@ module.exports = function(app) {
   var btv3config = app.get('btv3');
   var Scraper = require('../btv3/scraper.js');
   var AWS = require('../btv3/aws.js');
-  var winston = require('winston');
   var mq = require('strong-mq');
-  var splunk = require('winston-splunk').splunk;
 
-  // init logger
-  winston.add(splunk, {
-    splunkHost: app.get('logHost')
-  });
-  app.winston = winston;
 
   // init message queue
   var connection = mq.create({

@@ -22,38 +22,41 @@ var aws = module.exports = {};
 aws.sync = function(app) {
 
   var btv3Config   = app.get('btv3');
-  var db           = app.dataSources.btv3mongo;
   var Set          = app.models.set;
 
   btv3Config.stores.forEach(function(store){
     if (store.hasOwnProperty('awsHost')) {  // not all regions have an Amazon Marketplace
+
+      var awsProdApiClient = awsApi.createProdAdvClient(
+        btv3Config.awsAccessKeyID,
+        btv3Config.awsSecretAccessKey,
+        btv3Config.awsAssociateTag,
+        {
+          host: store.awsHost
+        }
+      );
+
       Set.find({where: {countryCode: store.countryCode}}, function(err, sets){
         if (err == null) {
-
-          var awsProdApiClient = awsApi.createProdAdvClient(
-            btv3Config.awsAccessKeyID,
-            btv3Config.awsSecretAccessKey,
-            btv3Config.awsAssociateTag,
-            {host: store.awsHost}
-          );
           sets.forEach(function(aSet) {
+
+            // comment in order to work with all sets
+            // e.g. when adding other attributes from aws
+            if (aSet.hasOwnProperty('ean')) {
+              return;
+            }
+
             getAWSInfo(aSet, awsProdApiClient)
           });
         }
         else {
-          app.winston.log('warning', "Problem connecting to datbase", {"msg": err.message, "status": err.status});
+          app.winston.log('warning', "Problem connecting to database", {"msg": err.message, "status": err.status});
         }
       });
     }
   });
 
   function getAWSInfo(aSet, awsProdApiClient) {
-
-    // comment in order to work with all sets
-    // e.g. when adding other attributes from aws
-    if (aSet.hasOwnProperty('ean')) {
-      return;
-    }
 
     awsProdApiClient.call("ItemSearch",
       {

@@ -10,6 +10,7 @@
     "aws-lib": "^0.3.0",
     "compression": "^1.0.3",
     "cors": "^2.5.2",
+    "envs": "^0.1.6",
     "loopback": "^2.22.0",
     "loopback-boot": "^2.6.5",
     "loopback-component-explorer": "^2.1.0",
