@@ -79,7 +79,7 @@ aws.sync = function(app) {
 
                 aSet.ean = awsSetAttr.EAN;
                 aSet.asin = awsSet.ASIN;
-                aSet.amazonPageUrl = awsSet.DetailPageUrl;
+                aSet.amazonPageUrl = awsSet.DetailPageURL;
 
                 aSet.save(function(err) {
                   if (err == null) {
