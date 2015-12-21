@@ -7,7 +7,7 @@ var Xray = require('x-ray');
  * Constants
  */
 const STRING_RETIRED = "Retired product";
-const KEYS  = ["id", "name", "countryCode", "code", "storeUrl", "thumbUrl", "ean", "created", "updated"];
+const KEYS  = ["id", "name", "countryCode", "code", "storeUrl", "thumbUrl", "ean", "created", "updated", "asin", "amazonPageUrl"];
 
 /**
  * @constructor

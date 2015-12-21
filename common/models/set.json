@@ -69,6 +69,14 @@
     "updated": {
       "type": "string",
       "required": false
+    },
+    "asin": {
+      "type": "string",
+      "required": false
+    },
+    "amazonPageUrl": {
+      "type": "string",
+      "required": false
     }
   },
   "validations": [],

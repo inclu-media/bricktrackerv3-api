@@ -42,7 +42,9 @@ aws.sync = function(app) {
 
             // comment in order to work with all sets
             // e.g. when adding other attributes from aws
-            if (aSet.hasOwnProperty('ean')) {
+            if (aSet.hasOwnProperty('ean') &&
+                aSet.hasOwnProperty('asin') &&
+                aSet.hasOwnProperty('amazonPageUrl')) {
               return;
             }
 
@@ -74,13 +76,17 @@ aws.sync = function(app) {
               var awsSet = setList[x];
               var awsSetAttr = awsSet.ItemAttributes;
               if (awsSetAttr.hasOwnProperty('MPN') && awsSetAttr.MPN.localeCompare(aSet.code) == 0) {
+
                 aSet.ean = awsSetAttr.EAN;
+                aSet.asin = awsSet.ASIN;
+                aSet.amazonPageUrl = awsSet.DetailPageUrl;
+
                 aSet.save(function(err) {
                   if (err == null) {
-                    app.winston.log('info', 'AWS Sync EAN Match', {"code": aSet.code, "EAN": awsSetAttr.EAN});
+                    app.winston.log('info', 'Amazon Sync Match', {"code": aSet.code, "ASIN": awsSet.ASIN});
                   }
                   else {
-                    app.winston.log('warning', 'EAN could not be saved to set', {"msg": err.message, "status": err.status});
+                    app.winston.log('warning', 'Amazon data could not be saved to set', {"msg": err.message, "status": err.status});
                   }
                 });
                 break;
@@ -89,7 +95,7 @@ aws.sync = function(app) {
           }
         }
         else {
-          app.winston.log('warning', 'Problems retrieving results from AWS', {"msg": err.message, "status": err.status});
+          app.winston.log('warning', 'Problems retrieving results from Amazon PA API', {"msg": err.message, "status": err.status});
         }
      })
 
