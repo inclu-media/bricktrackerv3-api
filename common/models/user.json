@@ -7,10 +7,11 @@
   "relations": {},
   "acls": [
     {
-      "accessType": "*",
+      "accessType": "EXECUTE",
       "principalType": "ROLE",
       "principalId": "$everyone",
-      "permission": "ALLOW"
+      "permission": "ALLOW",
+      "property": "loginWithToken"
     }
   ],
   "methods": {}

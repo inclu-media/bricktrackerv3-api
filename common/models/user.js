@@ -1,4 +1,35 @@
+var idTokenVerifier = require('google-id-token-verifier');
+
 module.exports = function(User) {
+
+  User.loginWithToken = function(idToken, cb) {
+
+    var userModel = this.constructor;
+    var app = userModel.app;
+    var btv3Config = app.get('btv3');
+    var clientId = btv3Config.apiClientId;
+
+    idTokenVerifier.verify(idToken, clientId, function (err, tokenInfo) {
+      if (err) {
+        app.winston.log('warning', 'Id token verification failed', {"msg": err.message, "stack": err.stack});
+        cb(err);
+      }
+
+      console.log(tokenInfo);
+    });
+  };
+
+  User.remoteMethod(
+    'loginwithtoken',
+    {
+      accepts: [
+        {arg: 'idToken', type: 'string', required: true},
+      ],
+      http: {path: '/loginwithtoken', verb: 'post'},
+      description: "Login with a google id token."
+    }
+  );
+
   User.disableRemoteMethod("create", true);
   User.disableRemoteMethod("upsert", true);
   User.disableRemoteMethod("updateAll", true);
