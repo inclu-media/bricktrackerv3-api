@@ -9,13 +9,21 @@
       "accessType": "*",
       "principalType": "ROLE",
       "principalId": "$everyone",
-      "permission": "DENY"
+      "permission": "ALLOW"
     },
     {
-      "accessType": "*",
       "principalType": "ROLE",
       "principalId": "$authenticated",
-      "permission": "ALLOW"
+      "permission": "ALLOW",
+      "property": "subscribe",
+      "accessType": "EXECUTE"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "unsubscribe",
+      "accessType": "EXECUTE"
     }
   ],
   "methods": {}
