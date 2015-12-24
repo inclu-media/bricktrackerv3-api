@@ -33,6 +33,7 @@ module.exports = function(User) {
                 {"msg": err.message, "stack": err.stack});
               return cb(err);
             }
+            User.app.winston.log('info', "New user registration");
             generateToken(user, cb)
           });
         }
