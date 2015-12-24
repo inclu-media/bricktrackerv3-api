@@ -56,8 +56,6 @@
         "countryCode": "CA",
         "awsHost": "webservices.amazon.ca"
       }
-    ],
-    "appUserName": "btv3app",
-    "appUserEmail": "btv3app@bricktracker.net"
+    ]
   }
 }

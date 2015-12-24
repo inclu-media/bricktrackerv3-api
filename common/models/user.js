@@ -4,26 +4,61 @@ module.exports = function(User) {
 
   User.loginWithToken = function(idToken, cb) {
 
-    var userModel = this.constructor;
-    var app = userModel.app;
-    var btv3Config = app.get('btv3');
+    var btv3Config = User.app.get('btv3');
     var clientId = btv3Config.apiClientId;
 
     idTokenVerifier.verify(idToken, clientId, function (err, tokenInfo) {
+
+      // invalid token
       if (err) {
-        app.winston.log('warning', 'Id token verification failed', {"msg": err.message, "stack": err.stack});
-        cb(err);
+        User.app.winston.log('warning', "Id token verification failed", {"msg": err.message, "stack": err.stack});
+        return cb(err);
       }
 
-      console.log(tokenInfo);
+      // token valid
+      User.find({where:{email: tokenInfo.email}}, function(err, users) {
+        if (err) {
+          User.app.winston.log('warning', "Find operation during token validation failed.",
+            {"msg": err.message, "stack": err.stack});
+          return cb(err);
+        }
+
+        if (users != null && users.length == 1) {
+          generateToken(users[0], cb);
+        }
+        else {
+          User.create({email: tokenInfo.email, password: "empty"}, function(err, user){
+            if (err) {
+              User.app.winston.log('warning', "Create operation during token validation failed.",
+                {"msg": err.message, "stack": err.stack});
+              return cb(err);
+            }
+            generateToken(user, cb)
+          });
+        }
+      });
     });
   };
 
+  function generateToken(user, cb) {
+    user.createAccessToken(user.maxTTL, function(err, token) {
+      if (err) {
+        User.app.winston.log('warning', "Error creating API access token",
+          {"msg": err.message, "stack": err.stack});
+        return cb(err);
+      }
+      return cb(null, token);
+    })
+  }
+
   User.remoteMethod(
-    'loginwithtoken',
+    'loginWithToken',
     {
       accepts: [
-        {arg: 'idToken', type: 'string', required: true},
+        {arg: 'idToken', type: 'string', required: true}
+      ],
+      returns: [
+        {arg: 'apiToken', type: 'object'}
       ],
       http: {path: '/loginwithtoken', verb: 'post'},
       description: "Login with a google id token."
@@ -42,6 +77,8 @@ module.exports = function(User) {
   User.disableRemoteMethod("count", true);
   User.disableRemoteMethod("exists", true);
   User.disableRemoteMethod("resetPassword", true);
+  User.disableRemoteMethod("login", true);
+  User.disableRemoteMethod("logout", false);
   User.disableRemoteMethod('createChangeStream', true);
   User.disableRemoteMethod('__count__accessTokens', false);
   User.disableRemoteMethod('__create__accessTokens', false);
