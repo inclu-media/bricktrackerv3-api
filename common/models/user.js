@@ -58,7 +58,7 @@ module.exports = function(User) {
         {arg: 'idToken', type: 'string', required: true}
       ],
       returns: [
-        {arg: 'apiToken', type: 'object'}
+        {type: 'object'}
       ],
       http: {path: '/loginwithtoken', verb: 'post'},
       description: "Login with a google id token."
