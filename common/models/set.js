@@ -6,8 +6,11 @@ module.exports = function(Set) {
       where: {
         and: [
           { countryCode: countryCode },
-          { code: code },
-          { or: [{ created: { gt: new Date(lastSynced) }}, { updated: { gt: new Date(lastSynced) }} ]}
+          { code: code }
+        ],
+        or: [
+          { created: { gt: new Date(lastSynced) }},
+          { updated: { gt: new Date(lastSynced) }}
         ]
       }
     };
