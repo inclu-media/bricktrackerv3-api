@@ -7,7 +7,7 @@ module.exports = function(Set) {
         and: [
           { countryCode: countryCode },
           { code: code },
-          { or: [{ created: { gt: lastSynced }}, { updated: { gt: lastSynced }} ]}
+          { or: [{ created: { gt: new Date(lastSynced) }}, { updated: { gt: new Date(lastSynced) }} ]}
         ]
       }
     };
