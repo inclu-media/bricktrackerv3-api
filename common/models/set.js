@@ -5,12 +5,8 @@ module.exports = function(Set) {
     var fObj = {
       where: {
         and: [
-          { countryCode: countryCode },
-          { code: code }
-        ],
-        or: [
-          { created: { gt: new Date(lastSynced) }},
-          { updated: { gt: new Date(lastSynced) }}
+          { and: [ { countryCode: countryCode }, { code: code }] },
+          { or:  [ { created: { gt: new Date(lastSynced) }}, { updated: { gt: new Date(lastSynced) }} ]}
         ]
       }
     };
