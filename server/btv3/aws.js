@@ -80,6 +80,7 @@ aws.sync = function(app) {
                 aSet.ean = awsSetAttr.EAN;
                 aSet.asin = awsSet.ASIN;
                 aSet.amazonPageUrl = awsSet.DetailPageURL;
+                aSet.updated = new Date();
 
                 aSet.save(function(err) {
                   if (err == null) {

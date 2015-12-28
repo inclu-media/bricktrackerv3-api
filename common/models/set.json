@@ -63,11 +63,11 @@
       "required": false
     },
     "created": {
-      "type": "string",
+      "type": "date",
       "required": false
     },
     "updated": {
-      "type": "string",
+      "type": "date",
       "required": false
     },
     "asin": {
