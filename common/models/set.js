@@ -1,11 +1,11 @@
 module.exports = function(Set) {
 
-  Set.getUpdates = function(countryCode, code, lastSynced, cb) {
+  Set.getUpdates = function(countryCode, lastSynced, cb) {
 
     var fObj = {
       where: {
         and: [
-          { and: [ { countryCode: countryCode }, { code: code }] },
+          { countryCode: countryCode },
           { or:  [ { created: { gt: new Date(lastSynced) }}, { updated: { gt: new Date(lastSynced) }} ]}
         ]
       }
@@ -26,7 +26,6 @@ module.exports = function(Set) {
     {
       accepts: [
         {arg: 'countryCode', type: 'string', required: true},
-        {arg: 'code', type: 'string', required: true},
         {arg: 'lastSynced', type: 'date', required: true}
       ],
       returns: [
