@@ -157,6 +157,10 @@ scraper.sync = function(app) {
                 "name": theSet.name,
                 "countryCode": theSet.countryCode
               });
+
+              // send push for new set
+              var oldSet = {code: "new", countryCode: theSet.countryCode};
+              sendPush(oldSet, theSet);
             }
           });
         }
