@@ -159,8 +159,8 @@ scraper.sync = function(app) {
               });
 
               // send push for new set
-              var oldSet = {code: "new", countryCode: theSet.countryCode};
-              sendPush(oldSet, theSet);
+              var dummySet = {code: "new", countryCode: theSet.countryCode};
+              sendPush(dummySet, theSet);
             }
           });
         }
@@ -186,7 +186,7 @@ scraper.sync = function(app) {
       }
       else {
         app.winston.log('info', 'Push Notification', {
-          "msg": "Push notification send",
+          "msg": "Push notification sent",
           "payload": setString
         });
       }
