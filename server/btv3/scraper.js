@@ -180,7 +180,9 @@ scraper.sync = function(app) {
 
   function sendPush(oldSet, newSet) {
 
-    var setNotification = new Notification({});
+    var setNotification = new Notification({
+      message: "Test"
+    });
     var setString = oldSet.code + "@" + oldSet.countryCode;
     var setQuery = {
       subscriptions: {inq: [setString]}
