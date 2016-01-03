@@ -183,18 +183,9 @@ scraper.sync = function(app) {
     var setNotification = new Notification({
       message: "Test"
     });
-    var setString = oldSet.code + "@" + oldSet.countryCode;
-    var setQuery = {
-      subscriptions: setString
-    };
 
-    console.log("Pushing: " + setQuery);
-
-    PushModel.notifyByQuery(setQuery, setNotification, function(err){
+    PushModel.notifyByQuery({subscriptions: oldSet.code + "@" + oldSet.countryCode}, setNotification, function(err){
       if (err) {
-
-        console.log("Why did we end up here?");
-
         app.winston.log('warning', "Sending push notifications failed", {"msg": err.message, "status": err.status});
       }
       else {
