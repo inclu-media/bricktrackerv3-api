@@ -181,32 +181,9 @@ scraper.sync = function(app) {
   function sendPush(oldSet, newSet) {
 
     var setNotification = new Notification({
-      message: {
-        notification: {},
-        data: {
-          before: oldSet,
-          after: newSet
-        }
-      }
+      before: oldSet,
+      after: newSet
     });
-
-    // notification for new set
-    if (oldSet.code == "new") {
-      setNotification.message.notification = {
-        title: "Bricktracker: New Set",
-        body: newSet.code + " - " + newSet.name,
-        icon: "ic_new_set"
-      };
-    }
-
-    // notification for updated set
-    else {
-      setNotification.message.notification = {
-        title: "Bricktracker: Set Update",
-        body: newSet.code + " - " + newSet.name,
-        icon: "ic_set_update"
-      };
-    }
 
     PushModel.notifyByQuery({subscriptions: oldSet.code + "@" + oldSet.countryCode}, setNotification, function(err){
       if (err) {
