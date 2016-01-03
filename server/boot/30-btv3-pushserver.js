@@ -11,7 +11,7 @@ module.exports = function (app) {
     var btv3Config = app.get('btv3');
 
     var btv3api = {
-      id: 'bricktrackerv3-api',
+      id: 'btv3',
       name: 'bricktrackerv3-api',
       userId: 'martin.melcher@gmail.com',
       description: 'Bricktracker v3 REST API',
