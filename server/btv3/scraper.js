@@ -188,12 +188,12 @@ scraper.sync = function(app) {
       subscriptions: setString
     };
 
-    Console.log("Pushing: " + setQuery);
+    console.log("Pushing: " + setQuery);
 
     PushModel.notifyByQuery(setQuery, setNotification, function(err){
       if (err) {
 
-        Console.log("Why did we end up here?");
+        console.log("Why did we end up here?");
 
         app.winston.log('warning', "Sending push notifications failed", {"msg": err.message, "status": err.status});
       }
