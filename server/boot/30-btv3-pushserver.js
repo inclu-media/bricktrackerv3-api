@@ -15,6 +15,7 @@ module.exports = function (app) {
       name: 'bricktrackerv3-api',
       userId: 'martin.melcher@gmail.com',
       description: 'Bricktracker v3 REST API',
+      type: 'production',
       pushSettings: {
         gcm: {
           serverApiKey: btv3Config.gcmServerApiKey
