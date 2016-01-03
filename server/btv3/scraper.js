@@ -185,7 +185,7 @@ scraper.sync = function(app) {
     });
     var setString = oldSet.code + "@" + oldSet.countryCode;
     var setQuery = {
-      subscriptions: {inq: [setString]}
+      subscriptions: setString
     };
 
     PushModel.notifyByQuery(setQuery, setNotification, function(err){
