@@ -181,8 +181,11 @@ scraper.sync = function(app) {
   function sendPush(oldSet, newSet) {
 
     var setNotification = new Notification({
-      before: oldSet,
-      after: newSet
+      code: oldSet.code,
+      name: newSet.name,
+      countryCode: oldSet.countryCode,
+      before: stripDown(oldSet),
+      after: stripDown(newSet)
     });
 
     PushModel.notifyByQuery({subscriptions: oldSet.code + "@" + oldSet.countryCode}, setNotification, function(err){
@@ -204,19 +207,21 @@ scraper.sync = function(app) {
   }
 
   function equals(oldSet, newSet) {
-    var objOld = JSON.parse(JSON.stringify(oldSet));
-    var objNew = JSON.parse(JSON.stringify(newSet));
+    var objOld = stripDown(oldSet);
+    var objNew = stripDown(newSet);
 
+    return JSON.stringify(objOld) === JSON.stringify(objNew);
+  }
+
+  function stripDown(aSet) {
+    var objSet = JSON.parse(JSON.stringify(aSet));
     var keys = KEYS;
     for (var x = 0; x < keys.length; x++) {
-      if (objOld.hasOwnProperty(keys[x])) {
-        delete objOld[keys[x]];
-      }
-      if (objNew.hasOwnProperty(keys[x])) {
-        delete objNew[keys[x]];
+      if (objSet.hasOwnProperty(keys[x])) {
+        delete objSet[keys[x]];
       }
     }
-    return JSON.stringify(objOld) === JSON.stringify(objNew);
+    return objSet;
   }
 
 };
