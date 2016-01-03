@@ -48,7 +48,7 @@ module.exports = function (app) {
     function registerApp(cb) {
       Application.beforeSave = function (next) {
         if (this.name === btv3api.name) {
-          this.id = 'bricktrackerv3-api';
+          this.id = 'btv3';
         }
         next();
       };
