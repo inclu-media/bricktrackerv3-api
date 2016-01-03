@@ -110,6 +110,12 @@ scraper.sync = function(app) {
             if (oldSet.hasOwnProperty("ean")) {
               aSet.ean = oldSet.ean;
             }
+            if (oldSet.hasOwnProperty("asin")) {
+              aSet.asin = oldSet.asin;
+            }
+            if (oldSet.hasOwnProperty("amazonPageUrl")) {
+              aSet.amazonPageUrl = oldSet.amazonPageUrl;
+            }
 
             // delete old set and create a new one (rather than update)
             (function(oldSet) {
