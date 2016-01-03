@@ -1,4 +1,5 @@
 {
   "logHost": "log",
-  "amqpHost": "mq"
+  "amqpHost": "mq",
+  "appType": "production"
 }

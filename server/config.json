@@ -27,6 +27,7 @@
   "logHost": "192.168.99.100",
   "amqpHost": "192.168.99.100",
   "amqpPort": 5672,
+  "appType": "sandbox",
   "btv3": {
     "queueName": "btv3",
     "syncStoresJob": "sync-stores",
