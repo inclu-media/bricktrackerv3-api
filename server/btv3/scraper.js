@@ -181,7 +181,7 @@ scraper.sync = function(app) {
   function sendPush(oldSet, newSet) {
 
     var setNotification = new Notification({
-      code: oldSet.code,
+      code: newSet.code,
       name: newSet.name,
       countryCode: oldSet.countryCode,
       before: stripDown(oldSet),
