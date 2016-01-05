@@ -183,10 +183,18 @@ scraper.sync = function(app) {
     var setNotification = new Notification({
       code: newSet.code,
       name: newSet.name,
-      countryCode: oldSet.countryCode,
+      countryCode: newSet.countryCode,
       before: stripDown(oldSet),
       after: stripDown(newSet)
     });
+
+    // detect new set
+    if (oldSet.code == "new") {
+      setNotification.isNew = "true";
+    }
+    else {
+      setNotification.isNew = "false";
+    }
 
     PushModel.notifyByQuery({subscriptions: oldSet.code + "@" + oldSet.countryCode}, setNotification, function(err){
       if (err) {
