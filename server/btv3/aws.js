@@ -60,7 +60,8 @@ aws.sync = function(app) {
       getAWSInfo(theSets[setCounter], apiClient);
     }
     if (setCounter < theSets.length) {
-      setTimeout(scheduleApiCall(theSets, setCounter++, apiClient), 1000);
+      var newCounter = setCounter + 1;
+      setTimeout(scheduleApiCall(theSets, newCounter, apiClient), 1000);
     }
   }
 
