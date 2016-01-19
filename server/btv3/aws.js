@@ -48,7 +48,8 @@ aws.sync = function(app) {
               return;
             }
 
-            getAWSInfo(aSet, awsProdApiClient)
+            // product advertising api quota -> only 1 request per second
+            setTimeout(getAWSInfo(aSet, awsProdApiClient),1000);
           });
         }
         else {
@@ -63,7 +64,7 @@ aws.sync = function(app) {
     awsProdApiClient.call("ItemSearch",
       {
         SearchIndex: "Toys",
-        Keywords: aSet.code + " " + aSet.name,
+        Keywords: aSet.code, // might be in german -> don't do:  + " " + aSet.name,
         Availability: "Available",
         Sort: "price",
         ResponseGroup: "ItemAttributes"
