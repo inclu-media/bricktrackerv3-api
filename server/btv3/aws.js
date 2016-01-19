@@ -54,12 +54,15 @@ aws.sync = function(app) {
    * @param apiClient
      */
   function scheduleApiCall(theSets, setCounter, apiClient) {
-    if (!theSets[setCounter].hasOwnProperty('ean') &&
-        !theSets[setCounter].hasOwnProperty('asin') &&
-        !theSets[setCounter].hasOwnProperty('amazonPageUrl')) {
+
+    var aSet = theSets[setCounter];
+
+    if (!aSet.hasOwnProperty('ean') &&
+        !aSet.hasOwnProperty('asin') &&
+        !aSet.hasOwnProperty('amazonPageUrl')) {
       getAWSInfo(theSets[setCounter], apiClient);
     }
-    if (setCounter < theSets.length) {
+    if (setCounter < theSets.length-1) {
       var newCounter = setCounter + 1;
       setTimeout(scheduleApiCall(theSets, newCounter, apiClient), 1000);
     }
