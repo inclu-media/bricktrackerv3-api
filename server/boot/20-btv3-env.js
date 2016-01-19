@@ -12,7 +12,7 @@ module.exports = function(app) {
   // init logger
   winston.add(splunk, {
     splunkHost: app.get('logHost'),
-    level: 'error'
+    level: 'debug'
   });
   app.winston = winston;
 
