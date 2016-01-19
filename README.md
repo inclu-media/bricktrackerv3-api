@@ -45,3 +45,9 @@ slc ctl -C $SRV env-set api <Amazon Product Advertising API Key>
 slc ctl -C $SRV env-set api <Amazon Associate Tag>
 ```
 
+Cluster Management``
+
+```
+slc ctl -C http://<API-IP> set-size api <clustersize>
+slc ctl -C http://<API-IP> cluster-restart api
+``

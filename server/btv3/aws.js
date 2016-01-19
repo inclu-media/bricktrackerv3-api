@@ -38,22 +38,7 @@ aws.sync = function(app) {
 
       Set.find({where: {countryCode: store.countryCode}}, function(err, sets){
         if (err == null) {
-          count = 1;
-          sets.forEach(function(aSet) {
-
-            // comment in order to work with all sets
-            // e.g. when adding other attributes from aws
-            if (aSet.hasOwnProperty('ean') &&
-                aSet.hasOwnProperty('asin') &&
-                aSet.hasOwnProperty('amazonPageUrl')) {
-              return;
-            }
-
-            // product advertising api quota -> only 1 request per second
-            // stack them up in 1 sec intervalls
-            setTimeout(getAWSInfo(aSet, awsProdApiClient),1000 * count);
-            count++;
-          });
+          scheduleApiCall(sets, 0, awsProdApiClient); // recursion
         }
         else {
           app.winston.log('warning', "Problem connecting to database", {"msg": err.message, "status": err.status});
@@ -61,6 +46,23 @@ aws.sync = function(app) {
       });
     }
   });
+
+  /**
+   * Recursive API call 1 second apart (Amazon prod advert api quota)
+   * @param theSets
+   * @param setCounter
+   * @param apiClient
+     */
+  function scheduleApiCall(theSets, setCounter, apiClient) {
+    if (!theSets[setCounter].hasOwnProperty('ean') &&
+        !theSets[setCounter].hasOwnProperty('asin') &&
+        !theSets[setCounter].hasOwnProperty('amazonPageUrl')) {
+      getAWSInfo(theSets[setCounter], apiClient);
+    }
+    if (setCounter < theSets.length) {
+      setTimeout(scheduleApiCall(theSets, setCounter++, apiClient), 1000);
+    }
+  }
 
   function getAWSInfo(aSet, awsProdApiClient) {
 
