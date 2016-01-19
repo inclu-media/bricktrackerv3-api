@@ -38,6 +38,7 @@ aws.sync = function(app) {
 
       Set.find({where: {countryCode: store.countryCode}}, function(err, sets){
         if (err == null) {
+          count = 1;
           sets.forEach(function(aSet) {
 
             // comment in order to work with all sets
@@ -49,7 +50,9 @@ aws.sync = function(app) {
             }
 
             // product advertising api quota -> only 1 request per second
-            setTimeout(getAWSInfo(aSet, awsProdApiClient),1000);
+            // stack them up in 1 sec intervalls
+            setTimeout(getAWSInfo(aSet, awsProdApiClient),1000 * count);
+            count++;
           });
         }
         else {
