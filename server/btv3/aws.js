@@ -82,24 +82,31 @@ aws.sync = function(app) {
         if (err == null) {
           if (result.Items.hasOwnProperty('Item')) {
             var setList = result.Items.Item;
-
-            // nothing found
-            if (setList.length == 0) {
-              markAsFailed(aSet);
-            }
-
             for (var x=0; x<setList.length; x++) {
               var awsSet = setList[x];
               var awsSetAttr = awsSet.ItemAttributes;
 
               // debug
-              app.winston.log('debug', 'Analysing', awsSet);
+              // app.winston.log('debug', 'Analysing', awsSet);
 
               if (((awsSetAttr.hasOwnProperty('MPN') && awsSetAttr.MPN.localeCompare(aSet.code) == 0) ||
-                (awsSetAttr.hasOwnProperty('Model') && awsSetAttr.Model.localeCompare(aSet.code) == 0))
-                && awsSetAttr.hasOwnProperty('EAN') && awsSetAttr.EAN.lastIndexOf("570201",0) == 0) {
+                   (awsSetAttr.hasOwnProperty('Model') && awsSetAttr.Model.localeCompare(aSet.code) == 0) ||
+                   (awsSetAttr.hasOwnProperty('PartNumber') && awsSetAttr.PartNumber.localeCompare(aSet.code) == 0))
+                 && awsSetAttr.hasOwnProperty('Brand') && awsSetAttr.Brand.localeCompare('Lego') == 0) {
 
                 aSet.ean = awsSetAttr.EAN;
+
+                // analyse the EANList
+                // prefer 57201 ean codes
+                var eanList = awsSetAttr.EANList;
+                var eanArr = eanList.EANListElement;
+                for (x=0; x<eanArr.length; x++) {
+                  if (eanArr[x].lastIndexOf('570201',0) == 0) {
+                    aSet.ean = eanArr[x];
+                    break;
+                  }
+                }
+
                 aSet.asin = awsSet.ASIN;
                 aSet.amazonPageUrl = awsSet.DetailPageURL;
                 aSet.updated = new Date();
@@ -114,12 +121,6 @@ aws.sync = function(app) {
                 });
                 break;
               }
-
-              // nothing found, mark set as inspected
-              // it won't be inspected again unless it has not been released
-              if (x == setList.length-1 && !aSet.hasOwnProperty('avFuture')) {
-                markAsFailed(aSet);
-              }
             }
           }
         }
@@ -127,15 +128,5 @@ aws.sync = function(app) {
           app.winston.log('warning', 'Problems retrieving results from Amazon PA API', {"msg": err.message, "status": err.status});
         }
      })
-
-  }
-
-  function markAsFailed(aSet) {
-    aSet.asin = "unknown";
-    aSet.save(function(err) {
-      if (err == null) {
-        app.winston.log('info', 'No Amazon Sync Match', {"code": aSet.code});
-      }
-    });
   }
 };
