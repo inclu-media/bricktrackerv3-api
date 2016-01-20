@@ -86,7 +86,7 @@ aws.sync = function(app) {
               var awsSet = setList[x];
               var awsSetAttr = awsSet.ItemAttributes;
               if (awsSetAttr.hasOwnProperty('MPN') && awsSetAttr.MPN.localeCompare(aSet.code) == 0
-                && awsSetAttr.EAN.lastIndexOf("570201",0) == 0) {
+                && awsSetAttr.hasOwnProperty('EAN') && awsSetAttr.EAN.lastIndexOf("570201",0) == 0) {
 
                 aSet.ean = awsSetAttr.EAN;
                 aSet.asin = awsSet.ASIN;
@@ -102,6 +102,17 @@ aws.sync = function(app) {
                   }
                 });
                 break;
+              }
+
+              // nothing found, mark set as inspected
+              // it won't be inspected again
+              if (x == setList.length-1) {
+                aSet.asin = "unknown";
+                aSet.save(function(err) {
+                  if (err == null) {
+                    app.winston.log('info', 'No Amazon Sync Match', {"code": aSet.code});
+                  }
+                });
               }
             }
           }
