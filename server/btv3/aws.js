@@ -105,8 +105,8 @@ aws.sync = function(app) {
               }
 
               // nothing found, mark set as inspected
-              // it won't be inspected again
-              if (x == setList.length-1) {
+              // it won't be inspected again unless it has not been released
+              if (x == setList.length-1 && !aSet.hasOwnProperty('avFuture')) {
                 aSet.asin = "unknown";
                 aSet.save(function(err) {
                   if (err == null) {
