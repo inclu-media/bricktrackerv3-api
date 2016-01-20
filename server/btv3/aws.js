@@ -94,16 +94,20 @@ aws.sync = function(app) {
                    (awsSetAttr.hasOwnProperty('PartNumber') && awsSetAttr.PartNumber.localeCompare(aSet.code) == 0))
                  && awsSetAttr.hasOwnProperty('Brand') && awsSetAttr.Brand.localeCompare('Lego') == 0) {
 
-                aSet.ean = awsSetAttr.EAN;
+                if (awsSetAttr.hasOwnProperty(EAN)) {
+                  aSet.ean = awsSetAttr.EAN;
+                }
 
                 // analyse the EANList
                 // prefer 57201 ean codes
-                var eanList = awsSetAttr.EANList;
-                var eanArr = eanList.EANListElement;
-                for (x=0; x<eanArr.length; x++) {
-                  if (eanArr[x].lastIndexOf('570201',0) == 0) {
-                    aSet.ean = eanArr[x];
-                    break;
+                if (awsSetAttr.hasOwnProperty(EANList)) {
+                  var eanList = awsSetAttr.EANList;
+                  var eanArr = eanList.EANListElement;
+                  for (x = 0; x < eanArr.length; x++) {
+                    if (eanArr[x].lastIndexOf('570201', 0) == 0) {
+                      aSet.ean = eanArr[x];
+                      break;
+                    }
                   }
                 }
 
