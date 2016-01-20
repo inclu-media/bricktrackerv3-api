@@ -82,9 +82,19 @@ aws.sync = function(app) {
         if (err == null) {
           if (result.Items.hasOwnProperty('Item')) {
             var setList = result.Items.Item;
+
+            // nothing found
+            if (setList.length == 0) {
+              markAsFailed(aSet);
+            }
+
             for (var x=0; x<setList.length; x++) {
               var awsSet = setList[x];
               var awsSetAttr = awsSet.ItemAttributes;
+
+              // debug
+              app.winston.log('debug', 'Analysing', awsSet);
+
               if (((awsSetAttr.hasOwnProperty('MPN') && awsSetAttr.MPN.localeCompare(aSet.code) == 0) ||
                 (awsSetAttr.hasOwnProperty('Model') && awsSetAttr.Model.localeCompare(aSet.code) == 0))
                 && awsSetAttr.hasOwnProperty('EAN') && awsSetAttr.EAN.lastIndexOf("570201",0) == 0) {
@@ -108,12 +118,7 @@ aws.sync = function(app) {
               // nothing found, mark set as inspected
               // it won't be inspected again unless it has not been released
               if (x == setList.length-1 && !aSet.hasOwnProperty('avFuture')) {
-                aSet.asin = "unknown";
-                aSet.save(function(err) {
-                  if (err == null) {
-                    app.winston.log('info', 'No Amazon Sync Match', {"code": aSet.code});
-                  }
-                });
+                markAsFailed(aSet);
               }
             }
           }
@@ -123,5 +128,14 @@ aws.sync = function(app) {
         }
      })
 
+  }
+
+  function markAsFailed(aSet) {
+    aSet.asin = "unknown";
+    aSet.save(function(err) {
+      if (err == null) {
+        app.winston.log('info', 'No Amazon Sync Match', {"code": aSet.code});
+      }
+    });
   }
 };
