@@ -73,7 +73,7 @@ aws.sync = function(app) {
     awsProdApiClient.call("ItemSearch",
       {
         SearchIndex: "Toys",
-        Keywords: aSet.code, // might be in german -> don't do:  + " " + aSet.name,
+        Keywords: aSet.code + "  LEGO", // might be in german -> don't do:  + " " + aSet.name,
         Availability: "Available",
         Sort: "price",
         ResponseGroup: "ItemAttributes"
@@ -85,7 +85,8 @@ aws.sync = function(app) {
             for (var x=0; x<setList.length; x++) {
               var awsSet = setList[x];
               var awsSetAttr = awsSet.ItemAttributes;
-              if (awsSetAttr.hasOwnProperty('MPN') && awsSetAttr.MPN.localeCompare(aSet.code) == 0) {
+              if (awsSetAttr.hasOwnProperty('MPN') && awsSetAttr.MPN.localeCompare(aSet.code) == 0
+                && awsSetAttr.EAN.lastIndexOf("570201",0) == 0) {
 
                 aSet.ean = awsSetAttr.EAN;
                 aSet.asin = awsSet.ASIN;
