@@ -85,7 +85,8 @@ aws.sync = function(app) {
             for (var x=0; x<setList.length; x++) {
               var awsSet = setList[x];
               var awsSetAttr = awsSet.ItemAttributes;
-              if (awsSetAttr.hasOwnProperty('MPN') && awsSetAttr.MPN.localeCompare(aSet.code) == 0
+              if (((awsSetAttr.hasOwnProperty('MPN') && awsSetAttr.MPN.localeCompare(aSet.code) == 0) ||
+                (awsSetAttr.hasOwnProperty('Model') && awsSetAttr.Model.localeCompare(aSet.code) == 0))
                 && awsSetAttr.hasOwnProperty('EAN') && awsSetAttr.EAN.lastIndexOf("570201",0) == 0) {
 
                 aSet.ean = awsSetAttr.EAN;
